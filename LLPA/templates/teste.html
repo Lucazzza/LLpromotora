@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bemvindo{% endblock %}
+{% block body %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+<dialog id="modalEmprestimo">
+    <h2>Cadastro de Empréstimos</h2>
+    <p>Formulário destinado aos clientes cadastrados!</p>
+
+    <form class ="form" autocomplete="off" method="POST">{% csrf_token %}
+
+
+        <select class="js-example-basic-single" id="clienteSelect" style="width: 150%; ">
+        <option>Selecione um cliente</option>
+        </select>
+
+
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input type="text" id="input" placeholder="Pesquise pelo Banco..." required>
+        </label>
+        <ul class="list"></ul>
+
+        <!-- Campo para nomeCorretor -->
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input type="text" name="nomeCorretor" placeholder="Nome do Corretor" maxlength="20" required>
+        </label>
+
+        <!-- Campo para produto -->
+        <label class="label-input" for="list" style="width: 150%;">
+            <i class=""></i>
+
+            <input id="list" list="my-list" type="text" placeholder="Selecione um Produto" required></label>
+
+            <datalist id="my-list">
+                <option value="Novo"></option>
+                <option value="Refinanciamento"></option>
+                <option value="Cartão"></option>
+                <option value="Saque Complementar"></option>
+                <option value="Portabilidade"></option>
+                <option value="Saque FGTS"></option>
+            </datalist>
+
+        <!-- Campo para data_inicio_emprestimo -->
+        <h2 style="font-size: 18px; width: 150%;">Data Início do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <input type="date" name="data_inicio_emprestimo" placeholder="Data Início do Empréstimo" value="" required>
+        </label>
+
+        <!-- Campo para data_final_emprestimo -->
+        <h2 style="font-size: 18px; width: 150%;">Data Final do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input type="date" name="data_final_emprestimo" placeholder="Data Fim do Empréstimo" value="" required>
+        </label>
+
+        <!-- Campo para valorEmprestimo -->
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input id="emprestimoTot" type="number" name="valorEmprestimo" placeholder="Total do Empréstimo" step="0.01" required>
+        </label>
+
+        <!-- Campo para status -->
+        <label class="label-input" for="list1" style="width: 150%;">
+            <i class=""></i>
+            <input id="list1" list="my-list1" type="text" placeholder="Selecione um Status" required></label>
+
+            <datalist id="my-list1">
+                <option value="Pago"></option>
+                <option value="Análise"></option>
+                <option value="Averbação"></option>
+            </datalist>
+
+        <!-- Campo para comissaoCorretor -->
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input id="comissaoCorretor" type="number" name="comissaoCorretor" placeholder="Comissão Corretor" step="0.01" onblur="calcularComissoesCORR()" required>
+        </label>
+
+        <!-- Campo para comissaoLLPromo -->
+        <label class="label-input" style="width: 150%;">
+            <i class=""></i>
+            <input id="comissaoLLPromotora" type="number" name="comissaoLLPromotora" placeholder="Comissão LLPROMOTORA" step="0.01" onblur="calcularComissoesLLPRO()" required>
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt">
+                <button id="fecharmodalEmprestimo" type="button">Cancelar</button>
+            </div>
+            <div class="posicaobt">
+                <button id="cadastrarEmprestimo" type="submit">Cadastrar</button>
+            </div>
+        </div>
+
+    </form>
+</dialog>
+
+<script>
+    const modais = document.querySelectorAll('dialog');
+    const buttonsCadCliente = document.querySelectorAll("#cadastro_Cliente, #cadastro_Emprestimo, #cadastro_Servico, #cadastro_Despesa");
+
+    buttonsCadCliente.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            modais[index].showModal();
+        });
+    });
+
+    modais.forEach(modal => {
+        const id = modal.id;
+        const buttonFechar = document.querySelector(`#fechar${id}`);
+
+        buttonFechar.addEventListener('click', function() {
+            modal.close();
+        });
+    });
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#clienteSelect').select2({
+        ajax: {
+            url: "{% url 'cliente-autocomplete' %}",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term // search term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id,
+                            text: item.nome
+                        };
+                    })
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 3,
+        placeholder: 'Selecione um cliente',
+        allowClear: true
+    });
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modalEmprestimo = document.getElementById('modalEmprestimo');
+        modalEmprestimo.showModal();
+    });
+</script>
+
+{% endblock %}

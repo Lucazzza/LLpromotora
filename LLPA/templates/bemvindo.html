@@ -1,0 +1,1647 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bemvindo{% endblock %}
+{% block body %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+<style>
+
+.table {
+    font-size: 1rem; /* Tamanho padrão */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+    vertical-align: middle; /* Centraliza verticalmente */
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+    border-radius: 8px; /* Adiciona bordas arredondadas */
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os cantos arredondados */
+}
+
+.thead-dark th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+h1.text-center.mb-4 {
+    font-family: 'Arial', sans-serif;
+    color: #343a40;
+    font-weight: bold;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.pagination .step-links a {
+    margin: 0 5px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    color: #007bff; /* Cor do texto */
+    background-color: #ffffff; /* Cor de fundo */
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Adiciona transição suave */
+}
+
+.pagination .step-links a:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+    color: #ffffff; /* Cor do texto ao passar o mouse */
+}
+
+.pagination .step-links .current {
+    margin: 0 5px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #343a40; /* Cor de fundo do item atual */
+    color: #ffffff; /* Cor do texto do item atual */
+    text-decoration: none;
+}
+
+
+@media (max-width: 1200px) {
+    .table {
+        font-size: 0.9rem; /* Tamanho para telas menores que 1200px */
+    }
+}
+
+@media (max-width: 992px) {
+    .table {
+        font-size: 0.75rem; /* Tamanho para telas menores que 992px */
+    }
+}
+
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.65rem; /* Tamanho para telas menores que 768px */
+    }
+}
+
+@media (max-width: 576px) {
+    .table {
+        font-size: 0.56rem; /* Tamanho para telas menores que 576px */
+    }
+}
+
+.action-button {
+    margin-right: 10px;
+    border: none; /* Remove bordas padrão */
+    background: none; /* Remove fundo padrão */
+    cursor: pointer; /* Mostra um cursor de ponteiro ao passar sobre o botão */
+}
+
+.action-button:last-child {
+    margin-right: 0;
+}
+
+
+/* Estilo para o título */
+h1 {
+    font-size: 1.75rem; /* Reduzido para telas grandes */
+    font-weight: 700;
+    color: #333;
+    background-color: #f8f9fa;
+    padding: 8px 12px; /* Menos padding */
+    border-radius: 4px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    margin-bottom: 8px; /* Menos espaço abaixo do título */
+    text-align: center;
+}
+
+/* Estilo para o formulário de filtros */
+.filter-form {
+    background-color: #f8f9fa; /* Cor de fundo semelhante ao título */
+    padding: 6px; /* Menos padding */
+    border-radius: 4px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* Menos espaço abaixo dos filtros */
+}
+
+/* Estilo para os campos de filtro */
+.filter-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px; /* Menos espaço entre os campos */
+    align-items: center;
+}
+
+/* Ajuste os campos de filtro para que ocupem a largura disponível */
+.filter-fields .form-control {
+    flex: 1;
+    min-width: 100px; /* Tamanho mínimo dos campos */
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 6px; /* Menos padding */
+    font-size: 0.875rem; /* Tamanho do texto menor */
+}
+
+/* Estilo para os botões no formulário de filtros */
+.filter-fields .filter-btn {
+    flex: 0 0 auto;
+    min-width: 80px;
+    background-color: #007bff; /* Cor do botão primário */
+    border: none;
+    border-radius: 50px;
+    padding: 6px;
+    color: white;
+    font-size: 0.875rem;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transição suave */
+}
+
+.filter-fields .filter-btn {
+    background-color: #573c5e; /* Cor do botão secundário */
+}
+
+/* Efeito de hover no botão "Filtrar" (mais específico) */
+.filter-fields .btn.btn-primary:hover {
+    background-color: #eead2d; /* Cor mais escura no hover */
+    transform: scale(1.05); /* Leve aumento no hover */
+}
+
+/* Efeito de hover no botão "Limpar" (mais específico) */
+.filter-fields .btn.btn-secondary:hover {
+    background-color: #FA8072; /* Cor mais escura no hover */
+    transform: scale(1.05); /* Leve aumento no hover */
+}
+
+/* Efeito de hover no botão "PDF" (mais específico) */
+.filter-fields .btn.btn-tres:hover {
+    background-color: #3c613c; /* Cor mais escura no hover */
+    transform: scale(1.05); /* Leve aumento no hover */
+}
+
+/* Efeito de clique (active) */
+.filter-fields .filter-btn:active {
+    transform: scale(0.95); /* Leve redução quando o botão é pressionado */
+}
+
+/* Efeito de foco (quando o botão é acessado via teclado) */
+.filter-fields .filter-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Adiciona sombra azul no foco */
+}
+
+
+/* Media Queries para telas menores */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem; /* Reduz o tamanho do título para telas menores */
+    }
+
+    .filter-form {
+        padding: 4px;
+    }
+
+    .filter-fields {
+        flex-direction: column; /* Alinha os campos verticalmente */
+        gap: 3px;
+    }
+
+    .filter-fields .form-control {
+        width: 100%; /* Campos de filtro ocupam a largura total */
+        min-width: unset; /* Remove o tamanho mínimo */
+    }
+
+    .filter-fields .filter-btn {
+        width: 100%; /* Botões ocupam a largura total */
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.0rem; /* Reduz ainda mais o tamanho do título para telas muito pequenas */
+    }
+
+    .filter-form {
+        padding: 2px;
+    }
+
+    .filter-fields {
+        gap: 2px;
+    }
+
+    .filter-fields .form-control {
+        padding: 4px;
+        font-size: 0.75rem; /* Ajusta o tamanho do texto nos campos */
+    }
+
+    .filter-fields .filter-btn {
+        padding: 4px;
+        font-size: 0.75rem; /* Ajusta o tamanho do texto nos botões */
+    }
+}
+
+
+.background-wrapper {
+    padding-top: 45px; /* Ajuste conforme necessário para a altura da sua navbar */
+    padding-bottom: 40px; /* Ajuste conforme necessário para a altura da sua navbar */
+
+}
+
+.action-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease; /* Suave a transição */
+}
+
+.action-button:hover {
+    transform: scale(1.5); /* Aumenta o botão em 20% */
+}
+
+</style>
+
+<body class="bg-lightblue">
+
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid" >
+    <a class="navbar-brand" id="titulobemvindo"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bem Vindo, {{ user.username }}! </font></font></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Alternar de navegação">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LL-Promotora</font></font></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+              Cadastro
+            </font></font></a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" id="cadastro_Cliente" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cliente</font></font></a></li>
+              <li><a class="dropdown-item" id="cadastro_Emprestimo" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Empréstimo</font></font></a></li>
+              <li><a class="dropdown-item" id="cadastro_Servico" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Serviço</font></font></a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" id="cadastro_Despesa" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Despesa</font></font></a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Relatório</font></font></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+              Menu Principal
+            </font></font></a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Perfil</font></font></a></li>
+              <li><a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Configurações</font></font></a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sair</font></font></a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Procurar" aria-label="Procurar">
+          <button class="btn btn-success" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Procurar</font></font></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--<div class="background-wrapper">-->
+<!--<div class="" style="background-color: #8cb2b3; margin: 0 auto; max-width: 90%; border-radius: 10px;">-->
+<!--    <div class="cont_emprestimo mt-5 pt-5 d-flex justify-content-center">-->
+<!--        <div class="table-responsive" style="width: 85%;">-->
+<!--            <h1 class="text-center mb-4">Tabela de Empréstimos</h1>-->
+<!--            <form method="GET" action="" class="filter-form mb-3">-->
+<!--                <div class="filter-fields">-->
+<!--                    <input type="text" class="form-control" name="cliente" placeholder="Cliente" value="{{ request.GET.cliente }}">-->
+<!--                    <input type="text" class="form-control" name="banco" placeholder="Banco" value="{{ request.GET.banco }}">-->
+<!--                    <input type="text" class="form-control" name="corretor" placeholder="Corretor" value="{{ request.GET.corretor }}">-->
+<!--                    <input type="text" class="form-control" name="modelo" placeholder="Modelo" value="{{ request.GET.modelo }}">-->
+<!--                    <input type="date" class="form-control" name="data" placeholder="Data do Empréstimo" value="{{ request.GET.data }}">-->
+<!--                    <input type="text" class="form-control" name="status" placeholder="Status" value="{{ request.GET.status }}">-->
+<!--                    <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>-->
+<!--                    <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>-->
+<!--                    <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--            <table class="table table-striped table-hover table-bordered text-center">-->
+<!--                <thead class="thead-dark">-->
+<!--                    <tr>-->
+<!--                        &lt;!&ndash; Cabeçalhos da tabela &ndash;&gt;-->
+<!--                        <th style="width: 8%;">Cliente</th>-->
+<!--                        <th style="width: 8%;">Banco</th>-->
+<!--                        <th style="width: 8%;">Corretor</th>-->
+<!--                        <th style="width: 8%;">Produto</th>-->
+<!--                        <th style="width: 8%;">Data Início</th>-->
+<!--                        <th style="width: 8%;">Data Final</th>-->
+<!--                        <th style="width: 8%;">Empréstimo</th>-->
+<!--                        <th style="width: 8%;">Status</th>-->
+<!--                        <th style="width: 8%;">Comissão Corretor</th>-->
+<!--                        <th style="width: 8%;">Comissão Promotora</th>-->
+<!--                        <th style="width: 8%;">Ações</th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                    {% for emprestimo in page_obj %}-->
+<!--                    <tr class="table-row align-middle">-->
+<!--                        <td>{{ emprestimo.idcliente.nome }}</td>-->
+<!--                        <td>{{ emprestimo.nomeBanco }}</td>-->
+<!--                        <td>{{ emprestimo.nomeCorretor }}</td>-->
+<!--                        <td>{{ emprestimo.produto }}</td>-->
+<!--                        <td>{{ emprestimo.data_inicio_emprestimo|date:"d/m/Y" }}</td>-->
+<!--                        <td>{{ emprestimo.data_final_emprestimo|date:"d/m/Y" }}</td>-->
+<!--                        <td>{{ emprestimo.valorEmprestimo }}</td>-->
+<!--                        <td>{{ emprestimo.status }}</td>-->
+<!--                        <td>{{ emprestimo.comissaoCorretor }}</td>-->
+<!--                        <td>{{ emprestimo.comissaoLLPromo }}</td>-->
+<!--                        <td>-->
+<!--                            <button class="action-button" title="Atualizar" onclick="openUpdateModal({{ emprestimo.id }})">-->
+<!--                                <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>-->
+<!--                            </button>-->
+<!--                            <button type="button" class="action-button" title="Deletar" onclick="openDeleteModal('{{ emprestimo.id }}');">-->
+<!--                                <i class="fa-solid fa-trash" style="color: #db0a15;"></i>-->
+<!--                            </button>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    {% empty %}-->
+<!--                    <tr>-->
+<!--                        <td colspan="11" class="text-center">Nenhum empréstimo encontrado.</td>-->
+<!--                    </tr>-->
+<!--                    {% endfor %}-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--            <div class="pagination justify-content-center">-->
+<!--                <span class="step-links">-->
+<!--                    {% if page_obj.has_previous %}-->
+<!--                        <a href="?page=1"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>-->
+<!--                        <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>-->
+<!--                    {% endif %}-->
+
+<!--                    <span class="current">-->
+<!--                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}-->
+<!--                    </span>-->
+
+<!--                    {% if page_obj.has_next %}-->
+<!--                        <a href="?page={{ page_obj.next_page_number }}"><i class="fa-sharp fa-solid fa-forward-step"></i></a>-->
+<!--                        <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>-->
+<!--                    {% endif %}-->
+<!--                </span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+<!--<div class="background-wrapper">-->
+<!--    <div class="" style="background-color: #8cb2b3; margin: 0 auto; max-width: 90%; border-radius: 10px;">-->
+<!--        <div class="cont_servico mt-5 pt-5 d-flex justify-content-center">-->
+<!--            <div class="table-responsive" style="width: 85%;">-->
+<!--                <h1 class="text-center mb-4">Tabela de Serviços</h1>-->
+<!--                <form method="GET" action="" class="filter-form mb-3">-->
+<!--                    <div class="filter-fields">-->
+<!--                        <input type="text" class="form-control" name="servico_cliente" placeholder="Cliente" value="{{ request.GET.servico_cliente }}">-->
+<!--                        <input type="text" class="form-control" name="servico_descricao" placeholder="Descrição" value="{{ request.GET.servico_descricao }}">-->
+<!--                        <input type="date" class="form-control" name="servico_data_servico" placeholder="Data do Serviço" value="{{ request.GET.servico_data_servico }}">-->
+<!--                        <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>-->
+<!--                        <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>-->
+<!--                        <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <table class="table table-striped table-hover table-bordered text-center">-->
+<!--                    <thead class="thead-dark">-->
+<!--                        <tr>-->
+<!--                            <th style="width: 8%;">Cliente</th>-->
+<!--                            <th style="width: 8%;">Descrição</th>-->
+<!--                            <th style="width: 8%;">Preço</th>-->
+<!--                            <th style="width: 8%;">Data do Serviço</th>-->
+<!--                            <th style="width: 8%;">Ações</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        {% for servico in servico_page_obj %}-->
+<!--                        <tr class="table-row align-middle">-->
+<!--                            <td>{{ servico.idcliente.nome }}</td>-->
+<!--                            <td>{{ servico.descricao }}</td>-->
+<!--                            <td>{{ servico.preco }}</td>-->
+<!--                            <td>{{ servico.data_servico|date:"d/m/Y" }}</td>-->
+<!--                            <td>-->
+<!--                                <button class="action-button" title="Atualizar" onclick="openUpdateModalSER({{ servico.id }})">-->
+<!--                                    <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>-->
+<!--                                </button>-->
+<!--                                <button type="button" class="action-button" title="Deletar" onclick="openDeleteModalSER('{{ servico.id }}');">-->
+<!--                                    <i class="fa-solid fa-trash" style="color: #db0a15;"></i>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        {% empty %}-->
+<!--                        <tr>-->
+<!--                            <td colspan="11" class="text-center">Nenhum serviço encontrado.</td>-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                <div class="pagination justify-content-center">-->
+<!--                    <span class="step-links">-->
+<!--                        {% if servico_page_obj.has_previous %}-->
+<!--                            <a href="?servico_page=1"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>-->
+<!--                            <a href="?servico_page={{ servico_page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>-->
+<!--                        {% endif %}-->
+
+<!--                        <span class="current">-->
+<!--                            Página {{ servico_page_obj.number }} de {{ servico_page_obj.paginator.num_pages }}-->
+<!--                        </span>-->
+
+<!--                        {% if servico_page_obj.has_next %}-->
+<!--                            <a href="?servico_page={{ servico_page_obj.next_page_number }}"><i class="fa-sharp fa-solid fa-forward-step"></i></a>-->
+<!--                            <a href="?servico_page={{ servico_page_obj.paginator.num_pages }}"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>-->
+<!--                        {% endif %}-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+<!--<div class="background-wrapper">-->
+<!--    <div class="" style="background-color: #8cb2b3; margin: 0 auto; max-width: 90%; border-radius: 10px;">-->
+<!--        <div class="cont_despesa mt-5 pt-5 d-flex justify-content-center">-->
+<!--            <div class="table-responsive" style="width: 85%;">-->
+<!--                <h1 class="text-center mb-4">Tabela de Despesa</h1>-->
+<!--                <form method="GET" action="" class="filter-form mb-3">-->
+<!--                    <div class="filter-fields">-->
+<!--                        <input type="text" class="form-control" name="despesa_cliente" placeholder="Cliente" value="{{ request.GET.despesa_cliente }}">-->
+<!--                        <input type="text" class="form-control" name="despesa_descricao" placeholder="Descrição" value="{{ request.GET.despesa_descricao }}">-->
+<!--                        <input type="date" class="form-control" name="despesa_data_despesa" placeholder="Data da Despesa" value="{{ request.GET.despesa_data_despesa }}">-->
+<!--                        <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>-->
+<!--                        <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>-->
+<!--                        <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <table class="table table-striped table-hover table-bordered text-center">-->
+<!--                    <thead class="thead-dark">-->
+<!--                        <tr>-->
+<!--                            <th style="width: 8%;">Cliente</th>-->
+<!--                            <th style="width: 8%;">Descrição</th>-->
+<!--                            <th style="width: 8%;">Preço</th>-->
+<!--                            <th style="width: 8%;">Data da Despesa</th>-->
+<!--                            <th style="width: 8%;">Ações</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        {% for despesa in despesa_page_obj %}-->
+<!--                        <tr class="table-row align-middle">-->
+<!--                            <td>{{ despesa.idcliente.nome }}</td>-->
+<!--                            <td>{{ despesa.descricao }}</td>-->
+<!--                            <td>{{ despesa.preco }}</td>-->
+<!--                            <td>{{ despesa.data_despesa|date:"d/m/Y" }}</td>-->
+<!--                            <td>-->
+<!--                                <button class="action-button" title="Atualizar" onclick="openUpdateModalDES({{ despesa.id }})">-->
+<!--                                    <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>-->
+<!--                                </button>-->
+<!--                                <button type="button" class="action-button" title="Deletar" onclick="openDeleteModalDES('{{ despesa.id }}');">-->
+<!--                                    <i class="fa-solid fa-trash" style="color: #db0a15;"></i>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        {% empty %}-->
+<!--                        <tr>-->
+<!--                            <td colspan="11" class="text-center">Nenhuma despesa encontrada.</td>-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                <div class="pagination justify-content-center">-->
+<!--                    <span class="step-links">-->
+<!--                        {% if despesa_page_obj.has_previous %}-->
+<!--                            <a href="?despesa_page=1"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>-->
+<!--                            <a href="?despesa_page={{ despesa_page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>-->
+<!--                        {% endif %}-->
+
+<!--                        <span class="current">-->
+<!--                            Página {{ despesa_page_obj.number }} de {{ despesa_page_obj.paginator.num_pages }}-->
+<!--                        </span>-->
+
+<!--                        {% if despesa_page_obj.has_next %}-->
+<!--                            <a href="?despesa_page={{ despesa_page_obj.next_page_number }}"><i class="fa-sharp fa-solid fa-forward-step"></i></a>-->
+<!--                            <a href="?despesa_page={{ despesa_page_obj.paginator.num_pages }}"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>-->
+<!--                        {% endif %}-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!-- Carrossel -->
+<div id="carouselTables" class="carousel slide" style="margin-top: 30px;">>
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselTables" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Tabela de Empréstimos"></button>
+        <button type="button" data-bs-target="#carouselTables" data-bs-slide-to="1" aria-label="Tabela de Serviços"></button>
+        <button type="button" data-bs-target="#carouselTables" data-bs-slide-to="2" aria-label="Tabela de Despesa"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+        <!-- Slide: Tabela de Empréstimos -->
+        <div class="carousel-item active">
+            <div class="background-wrapper" style="max-width: 90%; margin: 0 auto;">
+                <div class="table-container">
+                    <h1 class="text-center mb-4">Tabela de Empréstimos</h1>
+                    <form method="GET" action="" class="filter-form mb-3">
+                        <div class="filter-fields">
+                            <!-- Campo oculto -->
+                            <input type="hidden" name="active_slide" id="activeSlideInputEmprestimos" value="0">
+                            <!-- Filtros de Empréstimos -->
+                            <input type="text" class="form-control" name="cliente" placeholder="Cliente" value="{{ request.GET.cliente }}">
+                            <input type="text" class="form-control" name="banco" placeholder="Banco" value="{{ request.GET.banco }}">
+                            <input type="text" class="form-control" name="corretor" placeholder="Corretor" value="{{ request.GET.corretor }}">
+                            <input type="text" class="form-control" name="modelo" placeholder="Modelo" value="{{ request.GET.modelo }}">
+                            <input type="date" class="form-control" name="data" placeholder="Data do Empréstimo" value="{{ request.GET.data }}">
+                            <input type="text" class="form-control" name="status" placeholder="Status" value="{{ request.GET.status }}">
+                            <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
+                            <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
+                            <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Banco</th>
+                                    <th>Corretor</th>
+                                    <th>Produto</th>
+                                    <th>Data Início</th>
+                                    <th>Data Final</th>
+                                    <th>Empréstimo</th>
+                                    <th>Status</th>
+                                    <th>Comissão Corretor</th>
+                                    <th>Comissão Promotora</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for emprestimo in page_obj %}
+                                <tr>
+                                    <td>{{ emprestimo.idcliente.nome }}</td>
+                                    <td>{{ emprestimo.nomeBanco }}</td>
+                                    <td>{{ emprestimo.nomeCorretor }}</td>
+                                    <td>{{ emprestimo.produto }}</td>
+                                    <td>{{ emprestimo.data_inicio_emprestimo|date:"d/m/Y" }}</td>
+                                    <td>{{ emprestimo.data_final_emprestimo|date:"d/m/Y" }}</td>
+                                    <td>{{ emprestimo.valorEmprestimo }}</td>
+                                    <td>{{ emprestimo.status }}</td>
+                                    <td>{{ emprestimo.comissaoCorretor }}</td>
+                                    <td>{{ emprestimo.comissaoLLPromo }}</td>
+                                    <td>
+                                        <button class="action-button" title="Atualizar" onclick="openUpdateModal({{ emprestimo.id }})">
+                                            <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>
+                                        </button>
+                                        <button type="button" class="action-button" title="Deletar" onclick="openDeleteModal('{{ emprestimo.id }}');">
+                                            <i class="fa-solid fa-trash" style="color: #db0a15;"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="11">Nenhum empréstimo encontrado.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="pagination justify-content-center">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1&active_slide=0"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>
+                                    <a href="?page={{ page_obj.previous_page_number }}&active_slide=0"><i class="fa-solid fa-backward-step"></i></a>
+                                {% endif %}
+                                <span class="current">
+                                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                                </span>
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}&active_slide=0"><i class="fa-sharp fa-solid fa-forward-step"></i></a>
+                                    <a href="?page={{ page_obj.paginator.num_pages }}&active_slide=0"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide: Tabela de Serviços -->
+        <div class="carousel-item">
+            <div class="background-wrapper" style="max-width: 90%; margin: 0 auto;">
+                <div class="table-container">
+                    <h1 class="text-center mb-4">Tabela de Serviços</h1>
+                    <form method="GET" action="" class="filter-form mb-3">
+                        <div class="filter-fields">
+                            <!-- Campo oculto -->
+                            <input type="hidden" name="active_slide" id="activeSlideInputServicos" value="1">
+                            <!-- Filtros de Serviços -->
+                            <input type="text" class="form-control" name="servico_cliente" placeholder="Cliente" value="{{ request.GET.servico_cliente }}">
+                            <input type="text" class="form-control" name="servico_descricao" placeholder="Descrição" value="{{ request.GET.servico_descricao }}">
+                            <input type="date" class="form-control" name="servico_data_servico" placeholder="Data do Serviço" value="{{ request.GET.servico_data_servico }}">
+                            <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
+                            <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
+                            <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                    <th>Data do Serviço</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for servico in servico_page_obj %}
+                                <tr>
+                                    <td>{{ servico.idcliente.nome }}</td>
+                                    <td>{{ servico.descricao }}</td>
+                                    <td>{{ servico.preco }}</td>
+                                    <td>{{ servico.data_servico|date:"d/m/Y" }}</td>
+                                    <td>
+                                        <button class="action-button" title="Atualizar" onclick="openUpdateModalSER({{ servico.id }})">
+                                            <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>
+                                        </button>
+                                        <button type="button" class="action-button" title="Deletar" onclick="openDeleteModalSER('{{ servico.id }}');">
+                                            <i class="fa-solid fa-trash" style="color: #db0a15;"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="11">Nenhum serviço encontrado.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="pagination justify-content-center">
+                            <span class="step-links">
+                                {% if servico_page_obj.has_previous %}
+                                    <a href="?servico_page=1&active_slide=1"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>
+                                    <a href="?servico_page={{ servico_page_obj.previous_page_number }}&active_slide=1"><i class="fa-solid fa-backward-step"></i></a>
+                                {% endif %}
+                                <span class="current">
+                                    Página {{ servico_page_obj.number }} de {{ servico_page_obj.paginator.num_pages }}
+                                </span>
+                                {% if servico_page_obj.has_next %}
+                                    <a href="?servico_page={{ servico_page_obj.next_page_number }}&active_slide=1"><i class="fa-sharp fa-solid fa-forward-step"></i></a>
+                                    <a href="?servico_page={{ servico_page_obj.paginator.num_pages }}&active_slide=1"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide: Tabela de Despesas -->
+        <div class="carousel-item">
+            <div class="background-wrapper" style="max-width: 90%; margin: 0 auto;">
+                <div class="table-container">
+                    <h1 class="text-center mb-4">Tabela de Despesa</h1>
+                    <form method="GET" action="" class="filter-form mb-3">
+                        <div class="filter-fields">
+                            <!-- Campo oculto -->
+                            <input type="hidden" name="active_slide" id="activeSlideInputDespesas" value="2">
+                            <!-- Filtros de Despesas -->
+                            <input type="text" class="form-control" name="despesa_cliente" placeholder="Cliente" value="{{ request.GET.despesa_cliente }}">
+                            <input type="text" class="form-control" name="despesa_banco" placeholder="Banco" value="{{ request.GET.despesa_banco }}">
+                            <input type="date" class="form-control" name="despesa_data" placeholder="Data da Despesa" value="{{ request.GET.despesa_data }}">
+                            <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
+                            <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
+                            <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Banco</th>
+                                    <th>Data</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for despesa in despesa_page_obj %}
+                                <tr>
+                                    <td>{{ despesa.idcliente.nome }}</td>
+                                    <td>{{ despesa.descricao }}</td>
+                                    <td>{{ despesa.preco }}</td>
+                                    <td>{{ despesa.data_despesa|date:"d/m/Y" }}</td>
+                                    <td>
+                                        <button class="action-button" title="Atualizar" onclick="openUpdateModalDES({{ despesa.id }})">
+                                            <i class="fa-solid fa-pencil" style="color: #0074cc;"></i>
+                                        </button>
+                                        <button type="button" class="action-button" title="Deletar" onclick="openDeleteModalDES('{{ despesa.id }}');">
+                                            <i class="fa-solid fa-trash" style="color: #db0a15;"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="11">Nenhuma despesa encontrada.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="pagination justify-content-center">
+                            <span class="step-links">
+                                {% if despesa_page_obj.has_previous %}
+                                    <a href="?despesa_page=1&active_slide=2"><i class="fa-sharp fa-solid fa-backward-fast"></i></a>
+                                    <a href="?despesa_page={{ despesa_page_obj.previous_page_number }}&active_slide=2"><i class="fa-solid fa-backward-step"></i></a>
+                                {% endif %}
+                                <span class="current">
+                                    Página {{ despesa_page_obj.number }} de {{ despesa_page_obj.paginator.num_pages }}
+                                </span>
+                                {% if despesa_page_obj.has_next %}
+                                    <a href="?despesa_page={{ despesa_page_obj.next_page_number }}&active_slide=2"><i class="fa-sharp fa-solid fa-forward-step"></i></a>
+                                    <a href="?despesa_page={{ despesa_page_obj.paginator.num_pages }}&active_slide=2"><i class="fa-sharp fa-solid fa-forward-fast"></i></a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--Modal deletar registro usado para emprestimos, serviços, despesas-->
+<dialog id="modalConfirmacao">
+    <h2>Confirmar Exclusão</h2>
+    <p>Tem certeza que deseja excluir este empréstimo?</p>
+
+    <form id="deleteForm" method="POST" action="" style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0;">
+        {% csrf_token %}
+        <button id="cancelarExclusao" type="button" style="margin: 0;">Cancelar</button>
+        <button id="confirmarExclusao" type="submit" style="margin: 0;">Excluir</button>
+    </form>
+</dialog>
+
+<dialog id="modalCliente">
+    <h2>Cadastro de Clientes</h2>
+    <p>Procure fornecer os dados corretamente!</p>
+
+    <form class="form" method="POST" action="{% url 'registrar_cliente' %}">
+        {% csrf_token %}
+
+        <!-- Campos do Cliente -->
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Nome do Cliente" name="nome" required>
+            {{ cliente_form.nome }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Digite o Telefone" name="telefone" required>
+            {{ cliente_form.telefone }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="email" placeholder="Digite o E-mail" name="email" required>
+            {{ cliente_form.email }}
+        </label>
+
+        <!-- Informações do Endereço -->
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Logradouro" id="rua" name="logradouro" required>
+            {{ endereco_form.logradouro }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="CEP" name="cep" id="cep" onblur="pesquisacep(this.value);" required>
+            {{ endereco_form.cep }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Número" name="numero_residencia" required>
+            {{ endereco_form.numero_residencia }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Bairro" name="bairro" id="bairro" required>
+            {{ endereco_form.bairro }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Cidade" name="cidade" id="cidade" required>
+            {{ endereco_form.cidade }}
+        </label>
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Estado" name="estado" id="uf" maxlength="2" required>
+            {{ endereco_form.estado }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt">
+                <button id="fecharmodalCliente" type="button" onclick="limpa_formulário_cep()">Cancelar</button>
+            </div>
+            <div class="posicaobt">
+                <button type="submit" id="cadastrarCliente">Cadastrar</button>
+            </div>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="modalEmprestimo">
+    <h2>Cadastro de Empréstimos</h2>
+    <p>Formulário destinado aos clientes cadastrados!</p>
+
+    <form id="main_table_form" class="form" method="POST" action="{% url 'registrar_emprestimo' %}">
+        {% csrf_token %}
+
+        <select class="js-example-basic-single" id="clienteSelect" style="width: 150%; " name="idcliente" required>
+        <option>Selecione um cliente</option>
+            {{ emprestimo_form.idcliente }}
+        </select>
+
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="input" placeholder="Pesquise pelo Banco..." name="nomeBanco" required autocomplete="off">
+            {{ emprestimo_form.nomeBanco }}
+        </label>
+        <ul class="list" id="listB1"></ul>
+
+        <!-- Campo para nomeCorretor -->
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Nome do Corretor" maxlength="20"
+                   name="nomeCorretor" required>
+            {{ emprestimo_form.nomeCorretor }}
+        </label>
+
+        <!-- Campo para produto -->
+        <label class="label-input" for="list" style="width: 150%;">
+            <input id="list" list="my-list" type="text" placeholder="Selecione um Produto" name="produto" required>
+            {{ emprestimo_form.produto }}
+        </label>
+
+            <datalist id="my-list">
+                <option value="Novo"></option>
+                <option value="Refinanciamento"></option>
+                <option value="Cartão"></option>
+                <option value="Saque Complementar"></option>
+                <option value="Portabilidade"></option>
+                <option value="Saque FGTS"></option>
+            </datalist>
+
+        <!-- Campo para data_inicio_emprestimo -->
+        <h2 style="font-size: 18px; width: 150%;">Data Início do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <input type="date" placeholder="Data Início do Empréstimo" value=""
+                   name="data_inicio_emprestimo" required>
+            {{ emprestimo_form.data_inicio_emprestimo }}
+        </label>
+
+        <!-- Campo para data_final_emprestimo -->
+        <h2 style="font-size: 18px; width: 150%;">Data Final do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <input type="date" placeholder="Data Fim do Empréstimo" value=""
+                   name="data_final_emprestimo" required>
+            {{ emprestimo_form.data_final_emprestimo }}
+        </label>
+
+        <!-- Campo para valorEmprestimo -->
+        <label class="label-input" style="width: 150%;">
+            <input id="emprestimoTot" type="text" placeholder="Total do Empréstimo"
+                   name="valorEmprestimo" required>
+            {{ emprestimo_form.valorEmprestimo }}
+        </label>
+
+        <!-- Campo para status -->
+        <label class="label-input" for="list1" style="width: 150%;">
+            <input id="list1" list="my-list1" type="text" placeholder="Selecione um Status" name="status" required>
+            {{ emprestimo_form.status }}
+        </label>
+
+            <datalist id="my-list1">
+                <option value="Pago"></option>
+                <option value="Análise"></option>
+                <option value="Averbação"></option>
+            </datalist>
+
+        <!-- Campo para comissaoCorretor -->
+        <label class="label-input" style="width: 150%;">
+            <input id="comissaoCorretor" type="text" placeholder="Comissão Corretor"
+                   onblur="calcularComissoesCORR()" name="comissaoCorretor" required>
+            {{ emprestimo_form.comissaoCorretor }}
+        </label>
+
+        <!-- Campo para comissaoLLPromo -->
+        <label class="label-input" style="width: 150%;">
+            <input id="comissaoLLPromotora" type="text" placeholder="Comissão LLPROMOTORA"
+                   onblur="calcularComissoesLLPRO()" name="comissaoLLPromo" required>
+            {{ emprestimo_form.comissaoLLPromo }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt">
+                <button id="fecharmodalEmprestimo" type="button">Cancelar</button>
+            </div>
+            <div class="posicaobt">
+                <button id="cadastrarEmprestimo" type="submit">Cadastrar</button>
+            </div>
+        </div>
+
+    </form>
+</dialog>
+
+<!--<dialog id="modalAtualizarEmprestimo">-->
+<!--    <h2>Atualizar Empréstimo</h2>-->
+<!--    <p>Formulário para atualizar os dados do empréstimo!</p>-->
+
+<!--    <form id="main_table_form4" class="form" method="POST" action="{% url 'emprestimo_update' %}">-->
+<!--        {% csrf_token %}-->
+<!--&lt;!&ndash;        <label class="label-input" style="width: 150%;">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="text" id="id" placeholder="ID emprestimo..." name="idemprestimo" required readonly>&ndash;&gt;-->
+<!--&lt;!&ndash;            {{ emprestimo_form.id }}&ndash;&gt;-->
+<!--&lt;!&ndash;        </label>&ndash;&gt;-->
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input type="text" id="nome" placeholder="Nome do cliente..." name="idcliente" required readonly>-->
+<!--            {{ emprestimo_form.idcliente.nome }}-->
+<!--        </label>-->
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input type="text" id="input2" placeholder="Pesquise pelo Banco..." name="nomeBanco" required autocomplete="off">-->
+<!--            {{ emprestimo_form.nomeBanco }}-->
+<!--        </label>-->
+<!--        <ul class="list" id="listB2"></ul>-->
+
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input type="text" placeholder="Nome do Corretor" maxlength="20" name="nomeCorretor" required>-->
+<!--            {{ emprestimo_form.nomeCorretor }}-->
+<!--        </label>-->
+
+<!--        <label class="label-input" for="listProduto" style="width: 150%;">-->
+<!--            <input id="listProduto" list="produto-list" type="text" placeholder="Selecione um Produto" name="produto" required>-->
+<!--            {{ emprestimo_form.produto }}-->
+<!--        </label>-->
+<!--        <datalist id="produto-list">-->
+<!--            <option value="Novo"></option>-->
+<!--            <option value="Refinanciamento"></option>-->
+<!--            <option value="Cartão"></option>-->
+<!--            <option value="Saque Complementar"></option>-->
+<!--            <option value="Portabilidade"></option>-->
+<!--            <option value="Saque FGTS"></option>-->
+<!--        </datalist>-->
+
+<!--        <h2 style="font-size: 18px; width: 150%;">Data Início do Empréstimo</h2>-->
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input type="date" placeholder="Data Início do Empréstimo" name="data_inicio_emprestimo" required>-->
+<!--            {{ emprestimo_form.data_inicio_emprestimo }}-->
+<!--        </label>-->
+
+<!--        <h2 style="font-size: 18px; width: 150%;">Data Final do Empréstimo</h2>-->
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input type="date" placeholder="Data Fim do Empréstimo" name="data_final_emprestimo" required>-->
+<!--            {{ emprestimo_form.data_final_emprestimo }}-->
+<!--        </label>-->
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input id="emprestimoTotATU" type="text" placeholder="Total do Empréstimo" name="valorEmprestimo" required>-->
+<!--            {{ emprestimo_form.valorEmprestimo }}-->
+<!--        </label>-->
+
+<!--        <label class="label-input" for="listStatus" style="width: 150%;">-->
+<!--            <input id="listStatus" list="status-list" type="text" placeholder="Selecione um Status" name="status" required>-->
+<!--            {{ emprestimo_form.status }}-->
+<!--        </label>-->
+<!--        <datalist id="status-list">-->
+<!--            <option value="Pago"></option>-->
+<!--            <option value="Análise"></option>-->
+<!--            <option value="Averbação"></option>-->
+<!--        </datalist>-->
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input id="comissaoCorretorATU" type="text" placeholder="Comissão Corretor" onblur="calcularComissoesCORRATU()" name="comissaoCorretor" required>-->
+<!--            {{ emprestimo_form.comissaoCorretor }}-->
+<!--        </label>-->
+
+<!--        <label class="label-input" style="width: 150%;">-->
+<!--            <input id="comissaoLLPromotoraATU" type="text" placeholder="Comissão LLPROMOTORA" onblur="calcularComissoesLLPROATU()" name="comissaoLLPromo" required>-->
+<!--            {{ emprestimo_form.comissaoLLPromo }}-->
+<!--        </label>-->
+
+<!--        <div class="posicaoglobal">-->
+<!--            <div class="posicaobt">-->
+<!--                <button id="fecharmodalAtualizarEmprestimo" type="button" onclick="closeModal()">Cancelar</button>-->
+<!--            </div>-->
+<!--            <div class="posicaobt">-->
+<!--                <button id="atualizarEmprestimo" type="submit">Atualizar</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</dialog>-->
+
+
+<dialog id="modalAtualizarEmprestimo">
+    <h2>Atualizar Empréstimo</h2>
+    <p>Formulário para atualizar os dados do empréstimo!</p>
+
+    <form id="main_table_form4" class="form" method="POST" action="{% url 'emprestimo_update' %}">
+        {% csrf_token %}
+
+        <input type="hidden" id="emprestimoId" name="emprestimoId">
+
+        <input type="hidden" id="nome" placeholder="Nome do cliente..." name="idcliente" required readonly>
+        {{ emprestimo_form.idcliente }}
+
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="nome2" placeholder="Nome do cliente..." name="nomecliente" required readonly>
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="input2" placeholder="Pesquise pelo Banco..." name="nomeBanco" required autocomplete="off">
+            {{ emprestimo_form.nomeBanco }}
+        </label>
+        <ul class="list" id="listB2"></ul>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="corretor" placeholder="Nome do Corretor" maxlength="20" name="nomeCorretor" required>
+            {{ emprestimo_form.nomeCorretor }}
+        </label>
+
+        <label class="label-input" for="listProduto" style="width: 150%;">
+            <input id="listProduto" list="produto-list" type="text" placeholder="Selecione um Produto" name="produto" required>
+            {{ emprestimo_form.produto }}
+        </label>
+        <datalist id="produto-list">
+            <option value="Novo"></option>
+            <option value="Refinanciamento"></option>
+            <option value="Cartão"></option>
+            <option value="Saque Complementar"></option>
+            <option value="Portabilidade"></option>
+            <option value="Saque FGTS"></option>
+        </datalist>
+
+        <h2 style="font-size: 18px; width: 150%;">Data Início do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <input type="date" id="data_inicio_emprestimo" placeholder="Data Início do Empréstimo" name="data_inicio_emprestimo" required>
+            {{ emprestimo_form.data_inicio_emprestimo }}
+        </label>
+
+        <h2 style="font-size: 18px; width: 150%;">Data Final do Empréstimo</h2>
+        <label class="label-input" style="width: 150%;">
+            <input type="date" id="data_final_emprestimo" placeholder="Data Fim do Empréstimo" name="data_final_emprestimo" required>
+            {{ emprestimo_form.data_final_emprestimo }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="emprestimoTotATU" type="text" placeholder="Total do Empréstimo" name="valorEmprestimo" required>
+            {{ emprestimo_form.valorEmprestimo }}
+        </label>
+
+        <label class="label-input" for="listStatus" style="width: 150%;">
+            <input id="listStatus" list="status-list" type="text" placeholder="Selecione um Status" name="status" required>
+            {{ emprestimo_form.status }}
+        </label>
+        <datalist id="status-list">
+            <option value="Pago"></option>
+            <option value="Análise"></option>
+            <option value="Averbação"></option>
+        </datalist>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="comissaoCorretorATU" type="text" placeholder="Comissão Corretor" onblur="calcularComissoesCORRATU()" name="comissaoCorretor" required>
+            {{ emprestimo_form.comissaoCorretor }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="comissaoLLPromotoraATU" type="text" placeholder="Comissão LLPROMOTORA" onblur="calcularComissoesLLPROATU()" name="comissaoLLPromo" required>
+            {{ emprestimo_form.comissaoLLPromo }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt">
+                <button id="fecharmodalAtualizarEmprestimo" type="button" onclick="closeModal()">Cancelar</button>
+            </div>
+            <div class="posicaobt">
+                <button id="atualizarEmprestimo" type="submit">Atualizar</button>
+            </div>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="modalServico">
+    <h2>Cadastro de Serviços</h2>
+    <p>Formulário destinado aos registros gerais de serviços!</p>
+
+    <form id="main_table_form2" class="form" method="POST" action="{% url 'registrar_servico' %}">
+        {% csrf_token %}
+
+        <select class="js-example-basic-single" id="clienteSelect2" style="width: 150%; " name="idcliente" required>
+        <option>Selecione um cliente</option>
+            {{ servico_form.idcliente }}
+        </select>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Descricao" maxlength="150"
+                   name="descricao" required>
+            {{ servico_form.descricao }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="idprecoSER" type="text" placeholder="Preço"
+                   name="preco" required>
+            {{ servico_form.preco }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="date" placeholder="Data do Serviço" value=""
+                   name="data_servico" required>
+            {{ servico_form.data_servico }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt" >
+                <button id="fecharmodalServico" type="button">Cancelar</button>
+        </div>
+            <div class="posicaobt" >
+                <button id="cadastrarServico" type="submit">Cadastrar</button>
+            </div>
+        </div>
+   </form>
+</dialog>
+
+
+<dialog id="modalAtualizarServico">
+    <h2>Cadastro de Serviços</h2>
+    <p>Formulário destinado aos registros gerais de serviços!</p>
+
+    <form id="main_table_form5" class="form" method="POST" action="{% url 'servico_update' %}">
+        {% csrf_token %}
+
+        <input type="hidden" id="servicoId" name="servicoId">
+
+        <input type="hidden" id="nomeSER" placeholder="Nome do cliente..." name="idcliente" required readonly>
+        {{ servico_form.idcliente }}
+
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="nome2SER" placeholder="Nome do cliente..." name="nomecliente" required readonly>
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="descricaoSER" placeholder="Descricao" maxlength="150"
+                   name="descricao" required>
+            {{ servico_form.descricao }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="idprecoSERATU" type="text" placeholder="Preço"
+                   name="preco" required>
+            {{ servico_form.preco }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="date" id="data_servico" placeholder="Data do Serviço" value=""
+                   name="data_servico" required>
+            {{ servico_form.data_servico }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt" >
+                <button id="fecharmodalAtualizarServico" type="button">Cancelar</button>
+        </div>
+            <div class="posicaobt" >
+                <button id="atualizarServico" type="submit">Atualizar</button>
+            </div>
+        </div>
+   </form>
+</dialog>
+
+
+
+<dialog id="modalDespesa">
+    <h2>Cadastro de Despesas</h2>
+    <p>Formulário destinado aos registros gerais de despesas!</p>
+
+    <form id="main_table_form3" class="form" method="POST" action="{% url 'registrar_despesa' %}">
+        {% csrf_token %}
+
+        <select class="js-example-basic-single" id="clienteSelect3" style="width: 150%; " name="idcliente" required>
+        <option>Selecione um cliente</option>
+            {{ despesa_form.idcliente }}
+        </select>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" placeholder="Descricao" maxlength="150"
+                   name="descricao" required>
+            {{ despesa_form.descricao }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="idprecoDES" type="text" placeholder="Preço"
+                   name="preco" required>
+            {{ despesa_form.preco }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="date" placeholder="Data do Despesa" value=""
+                   name="data_despesa" required>
+            {{ despesa_form.data_despesa }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt" >
+                <button id="fecharmodalDespesa" type="button">Cancelar</button>
+        </div>
+            <div class="posicaobt" >
+                <button id="cadastrarDespesa" type="submit">Cadastrar</button>
+            </div>
+        </div>
+
+   </form>
+
+</dialog>
+
+
+<dialog id="modalAtualizarDespesa">
+    <h2>Cadastro de Despesas</h2>
+    <p>Formulário destinado aos registros gerais de despesas!</p>
+
+    <form id="main_table_form6" class="form" method="POST" action="{% url 'despesa_update' %}">
+        {% csrf_token %}
+
+        <input type="hidden" id="despesaId" name="despesaId">
+
+        <input type="hidden" id="nomeDES" placeholder="Nome do cliente..." name="idcliente" required readonly>
+        {{ despesa_form.idcliente }}
+
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="nome2DES" placeholder="Nome do cliente..." name="nomecliente" required readonly>
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="text" id="descricaoDES" placeholder="Descricao" maxlength="150"
+                   name="descricao" required>
+            {{ despesa_form.descricao }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input id="idprecoDESATU" type="text" placeholder="Preço"
+                   name="preco" required>
+            {{ despesa_form.preco }}
+        </label>
+
+        <label class="label-input" style="width: 150%;">
+            <input type="date" id="data_despesa" placeholder="Data do Despesa" value=""
+                   name="data_despesa" required>
+            {{ despesa_form.data_despesa }}
+        </label>
+
+        <div class="posicaoglobal">
+            <div class="posicaobt" >
+                <button id="fecharmodalAtualizarDespesa" type="button">Cancelar</button>
+        </div>
+            <div class="posicaobt" >
+                <button id="atualizarDespesa" type="submit">Cadastrar</button>
+            </div>
+        </div>
+
+   </form>
+
+</dialog>
+
+
+<footer class="footer">
+  <div class="footer-container">
+    Criação e Desenvolvimento - Lucas Souza:
+      <a href="mailto:lucas.souza5294@gmail.com" class="text-white">
+          <i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/lucas-souza-b7a39721a" class="text-white" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-linkedin"></i></a> &copy; 2024
+  </div>
+</footer>
+
+<!-- Exemplo de como exibir erros de validação no template -->
+<!--{% if cliente_form.errors %}-->
+<!--    <div class="alert alert-danger">-->
+<!--        <strong>Erro ao cadastrar:</strong>-->
+<!--        <ul>-->
+<!--        {% for field, errors in cliente_form.errors.items %}-->
+<!--            {% for error in errors %}-->
+<!--                <li>{{ error }}</li>-->
+<!--            {% endfor %}-->
+<!--        {% endfor %}-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--{% endif %}-->
+
+<!--&lt;!&ndash; Exibir erros do formulário &ndash;&gt;-->
+<!--{% if servico_form.errors %}-->
+<!--    <div class="alert alert-danger">-->
+<!--        <strong>Erro!</strong> Verifique os campos abaixo.-->
+<!--        <ul>-->
+<!--            {% for field in servico_form %}-->
+<!--                {% if field.errors %}-->
+<!--                    {% for error in field.errors %}-->
+<!--                        <li><strong>{{ field.label }}:</strong> {{ error }}</li>-->
+<!--                    {% endfor %}-->
+<!--                {% endif %}-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--{% endif %}-->
+
+
+
+<script>
+// Obtém a data atual
+const today = new Date();
+
+// Formata a data no formato YYYY-MM-DD
+const formattedDate = today.toISOString().split('T')[0];
+
+// Atribui a data formatada ao campo de input
+document.querySelector('input[name="data_inicio_emprestimo"]').value = formattedDate;
+document.querySelector('input[name="data_servico"]').value = formattedDate;
+document.querySelector('input[name="data_despesa"]').value = formattedDate;
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const modais = {
+        modalCliente: document.getElementById('modalCliente'),
+        modalEmprestimo: document.getElementById('modalEmprestimo'),
+        modalAtualizarEmprestimo: document.getElementById('modalAtualizarEmprestimo'),
+        modalAtualizarServico: document.getElementById('modalAtualizarServico'),
+        modalAtualizarDespesa: document.getElementById('modalAtualizarDespesa'),
+        modalServico: document.getElementById('modalServico'),
+        modalDespesa: document.getElementById('modalDespesa'),
+    };
+
+    const buttons = {
+        cadastro_Cliente: 'modalCliente',
+        cadastro_Emprestimo: 'modalEmprestimo',
+        cadastro_Servico: 'modalServico',
+        cadastro_Despesa: 'modalDespesa',
+        atualizar_Emprestimo: 'modalAtualizarEmprestimo',
+        atualizar_Servico: 'modalAtualizarServico',
+        atualizar_Despesa: 'modalAtualizarDespesa'
+    };
+
+    Object.keys(buttons).forEach(buttonId => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener('click', () => {
+                modais[buttons[buttonId]].showModal();
+            });
+        }
+    });
+
+    document.querySelectorAll('[id^=fecharmodal]').forEach(button => {
+        button.addEventListener('click', () => {
+            const modalId = button.id.replace('fechar', '');
+            modais[modalId].close();
+        });
+    });
+});
+
+// Select2 Initialization
+$(document).ready(function() {
+    var selects = [
+        { id: '#clienteSelect', dropdownParent: '#modalEmprestimo' },
+        { id: '#clienteSelect2', dropdownParent: '#modalServico' },
+        { id: '#clienteSelect3', dropdownParent: '#modalDespesa' },
+        { id: '#clienteSelect4', dropdownParent: '#modalAtualizarEmprestimo' },
+        { id: '#clienteSelect5', dropdownParent: '#modalAtualizarServico' },
+        { id: '#clienteSelect6', dropdownParent: '#modalAtualizarDespesa' }
+    ];
+
+    selects.forEach(function(select) {
+        $(select.id).select2({
+            ajax: {
+                url: "{% url 'cliente-autocomplete' %}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        term: params.term // search term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.nome
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Selecione um cliente',
+            allowClear: true,
+            dropdownParent: $(select.dropdownParent) // Especifica o modal como dropdownParent
+        });
+    });
+});
+
+
+    // Função para abrir o modal e preencher o formulário emprestimo
+function openUpdateModal(emprestimoId) {
+    fetch(`/bemvindo/emprestimo/detail/${emprestimoId}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('emprestimoId').value = data.id;
+            document.getElementById('nome').value = data.idcliente;
+            document.getElementById('nome2').value = data.nomecliente;
+            document.getElementById('input2').value = data.nomeBanco;
+            document.getElementById('corretor').value = data.nomeCorretor;
+            document.getElementById('listProduto').value = data.produto;
+            document.getElementById('data_inicio_emprestimo').value = data.data_inicio_emprestimo;
+            document.getElementById('data_final_emprestimo').value = data.data_final_emprestimo;
+            document.getElementById('emprestimoTotATU').value = data.valorEmprestimo;
+            document.getElementById('listStatus').value = data.status;
+            document.getElementById('comissaoCorretorATU').value = data.comissaoCorretor;
+            document.getElementById('comissaoLLPromotoraATU').value = data.comissaoLLPromo;
+
+            var modal = document.getElementById('modalAtualizarEmprestimo');
+            modal.showModal();
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+function closeModal() {
+    var modal = document.getElementById('modalAtualizarEmprestimo');
+    modal.close();
+}
+
+
+    // Função para abrir o modal e preencher o formulário
+function openUpdateModalSER(servicoId) {
+    fetch(`/bemvindo/servico/detail/${servicoId}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('servicoId').value = data.id;
+            document.getElementById('nomeSER').value = data.idcliente;
+            document.getElementById('nome2SER').value = data.nomecliente;
+            document.getElementById('descricaoSER').value = data.descricao;
+            document.getElementById('idprecoSERATU').value = data.preco;
+            document.getElementById('data_servico').value = data.data_servico;
+
+            var modal = document.getElementById('modalAtualizarServico');
+            modal.showModal();
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+function closeModal() {
+    var modal = document.getElementById('modalAtualizarServico');
+    modal.close();
+}
+
+
+    // Função para abrir o modal e preencher o formulário
+function openUpdateModalDES(despesaId) {
+    fetch(`/bemvindo/despesa/detail/${despesaId}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('despesaId').value = data.id;
+            document.getElementById('nomeDES').value = data.idcliente;
+            document.getElementById('nome2DES').value = data.nomecliente;
+            document.getElementById('descricaoDES').value = data.descricao;
+            document.getElementById('idprecoDESATU').value = data.preco;
+            document.getElementById('data_despesa').value = data.data_despesa;
+
+            var modal = document.getElementById('modalAtualizarDespesa');
+            modal.showModal();
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+function closeModal() {
+    var modal = document.getElementById('modalAtualizarDespesa');
+    modal.close();
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modalConfirmacao = document.getElementById('modalConfirmacao');
+    const deleteForm = document.getElementById('deleteForm');
+
+    document.getElementById('cancelarExclusao').addEventListener('click', () => {
+        modalConfirmacao.close();
+    });
+
+    document.getElementById('confirmarExclusao').addEventListener('click', () => {
+        deleteForm.submit();
+    });
+});
+
+function openDeleteModal(emprestimoId) {
+    // Configura o formulário de exclusão com o ID correto
+    const deleteForm = document.getElementById('deleteForm');
+    const url = '/bemvindo/emprestimo/' + emprestimoId + '/delete/';  // Caminho correto para a exclusão
+    deleteForm.action = url;
+
+    // Abre o modal
+    const modalConfirmacao = document.getElementById('modalConfirmacao');
+    modalConfirmacao.showModal();
+}
+
+function openDeleteModalSER(servicoId) {
+    // Configura o formulário de exclusão com o ID correto
+    const deleteForm = document.getElementById('deleteForm');
+    const url = '/bemvindo/servico/' + servicoId + '/delete/';  // Caminho correto para a exclusão
+    deleteForm.action = url;
+
+    // Abre o modal
+    const modalConfirmacao = document.getElementById('modalConfirmacao');
+    modalConfirmacao.showModal();
+}
+
+
+function openDeleteModalDES(despesaId) {
+    // Configura o formulário de exclusão com o ID correto
+    const deleteForm = document.getElementById('deleteForm');
+    const url = '/bemvindo/despesa/' + despesaId + '/delete/';  // Caminho correto para a exclusão
+    deleteForm.action = url;
+
+    // Abre o modal
+    const modalConfirmacao = document.getElementById('modalConfirmacao');
+    modalConfirmacao.showModal();
+}
+
+
+
+<!--Parte do script que salva o ID da carrossel, usado para voltar para a tabela após filtragem-->
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Obtém o carrossel
+    const carousel = document.querySelector('#carouselTables');
+    const carouselInstance = new bootstrap.Carousel(carousel);
+
+    // Atualiza o campo oculto correspondente antes de submeter o formulário
+    document.querySelectorAll('.filter-form').forEach(form => {
+        form.addEventListener('submit', function () {
+            const activeSlideIndex = Array.from(carousel.querySelectorAll('.carousel-item'))
+                .findIndex(item => item.classList.contains('active'));
+
+            // Atualiza o campo oculto específico para cada slide
+            if (activeSlideIndex === 0) {
+                document.getElementById('activeSlideInputEmprestimos').value = activeSlideIndex;
+            } else if (activeSlideIndex === 1) {
+                document.getElementById('activeSlideInputServicos').value = activeSlideIndex;
+            } else if (activeSlideIndex === 2) {
+                document.getElementById('activeSlideInputDespesas').value = activeSlideIndex;
+            }
+        });
+    });
+
+    // Verifica se há um índice de slide ativo na URL
+    const params = new URLSearchParams(window.location.search);
+    const activeSlide = params.get('active_slide');
+    if (activeSlide !== null) {
+        carouselInstance.to(parseInt(activeSlide)); // Navega para o slide correspondente
+    }
+});
+
+
+</script>
+
+
+{% endblock %}

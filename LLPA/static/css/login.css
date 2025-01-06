@@ -1,0 +1,558 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Sedan:ital@0;1&display=swap')
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body{
+font-family: 'Open Sans', sans-sefif;
+}
+
+.container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+background-color: #B0E0E6;
+border: 7px solid #fff;
+border-radius: 25px;
+animation: animateBorder 6s linear infinite; /* Inicio de controle da Animação da Borda */
+}
+
+/* Animação Infinita para a Borda */
+@keyframes animateBorder {
+   0% {
+        border: 7px solid #fff;
+   }
+   25% {
+        border: 7px solid #b17aef;
+   }
+   50% {
+        border: 7px solid #eba5af;
+   }
+   75% {
+        border: 7px solid #d3eaf2;
+   }
+   100% {
+        border: 7px solid #fff;
+   }
+}
+
+.content {
+background-color: #b17aef;
+border-radius: 15px;
+width: 960px;
+height: 60%;
+justify-content: space-between;
+align-items: center;
+position: relative;
+}
+
+.content::before {
+content: "";
+position: absolute;
+border-radius: 15px;
+background-color: #eba5af;
+width: 40%;
+height: 100%;
+
+
+left: 0;
+}
+
+.first-content {
+display: flex;
+}
+
+.tittle {
+font-size: 28px;
+font-weight: bold;
+text-transform: capitalize;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.tittle-primary{
+color: #fff;
+}
+
+.tittle-second{
+color: #eba5af;
+font-size: 31px;
+}
+
+.decription{
+font-size: 14px;
+font-weight: 300;
+color: #fff;
+line-height: 15px;
+}
+
+.reescrever-senha{
+font-size: 14px;
+font-weight: 300;
+color: #fff;
+line-height: 15px;
+padding: 10px;
+text-align: center;
+}
+
+.first-column {
+text-align: center;
+width: 40%;
+z-index: 10;
+}
+
+.second-column {
+width: 60%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.first-content .second-column{
+z-index: 11;
+}
+
+.list-social-media {
+display: flex;
+list-style-type: none;
+}
+
+.item-social-media{
+border: 1px solid #bdc3c7;
+border-radius: 50%;
+width: 35px;
+height: 35px;
+line-height: 35px;
+text-align: center;
+margin-right: 30px;
+color: #fff;
+transition: background-color .6s;
+}
+
+.item-social-media:hover{
+background-color: #000000;
+color: #fff;
+}
+
+.form {
+display: flex;
+flex-direction: column;
+width: 65%;
+}
+
+.form input{
+height: 45px;
+border: none;
+background-color: #fff;
+border-radius: 15px;
+/*margin: 7px;*/
+width: 100%;
+}
+
+.label-input{
+background-color: #fff;
+border-radius: 20px;
+border: 1px solid #afff;
+display: flex;
+align-items: center;
+margin: 7px;
+}
+
+.icon-modific{
+padding: 0 10px;
+}
+
+.btn{
+background-color: #FFFFFF;
+text-transform: uppercase;
+border-radius: 15px;
+border: 1px solid #808080;
+font-size: 10px;
+padding: 10px 50px;
+align-self: center;
+}
+
+.btn-primary{
+background-color: transparent;
+border: 1px solid #afff;
+transition: background-color .6s;
+}
+
+.btn-primary:hover{
+background-color: #fff;
+color: #58af9b;
+}
+
+.btn-second{
+background-color: transparent;
+color: #fff;
+border: 1px solid #afff;
+transition: background-color .6s;
+}
+
+.btn-second:hover{
+background-color: #fff;
+color: #58af9b;
+border: 1px solid #808080;
+}
+
+.second-content {
+position: absolute;
+display: flex;
+}
+
+.second-content .first-column {
+order: 2;
+z-index: -1
+}
+
+.second-content .second-column {
+order: 1;
+z-index: -1
+}
+
+.sign-in-js .first-content .first-column {
+z-index: -1;
+}
+
+.sign-in-js .second-content .second-column {
+z-index: 11;
+transition: 3s;
+}
+
+.sign-in-js .second-content .first-column {
+z-index: 13;
+}
+
+.sign-in-js .content::before {
+left: 60%;
+animation: animacaoida 2s;
+z-index: 12;
+}
+
+.sign-up-js .content::before {
+animation: animacaovinda 2s;
+z-index: 12;
+}
+
+.sign-up-js .second-content .first-column {
+z-index: -1;
+}
+
+.sign-up-js .first-content .second-column {
+z-index: 11;
+transition: 3s;
+}
+
+.sign-up-js .first-content .first-column {
+z-index: 13;
+}
+
+.sign-in-js .first-content .second-column {
+z-index: -1;
+position: relative;
+animation: deslocarlogin 2s;
+}
+
+.sign-up-js .second-content .second-column{
+z-index: -1;
+position: relative;
+animation: deslocarcadastrar 2s;
+}
+
+@keyframes deslocarlogin {
+    from {
+        left: 0;
+        opacity: 1;
+        z-index: 12;
+    }
+    25%{
+        left: -80px;
+    }
+    50%{
+        left: -100px;
+    }
+    to{
+        left: -110px;
+        opacity: 0;
+        z-index: -1;
+    }
+}
+
+@keyframes deslocarcadastrar {
+    from {
+        left: 0;
+        opacity: 1;
+        z-index: 12;
+    }
+    25%{
+        left: 80px;
+    }
+    50%{
+        left: 100px;
+    }
+    to{
+        left: 110px;
+        opacity: 0;
+        z-index: -1;
+
+    }
+}
+
+
+/*ANIMAÇÃO CSS*/
+
+@keyframes animacaoida{
+    from {
+        left: 0;
+        width: 40%;
+    }
+    25%{
+        left: 12%;
+        width: 50%;
+    }
+    50%{
+        left: 24%;
+        width: 60%;
+        background-color: #4d5056;
+    }
+    75%{
+        left: 48%;
+        width: 50%;
+        background-color: #eba5af;
+    }
+    to{
+        left: 60%;
+        width: 40%;
+    }
+}
+
+@keyframes animacaovinda{
+    from {
+        left: 60%;
+        width: 40%;
+    }
+    25%{
+        left: 48%;
+        width: 50%;
+        background-color: #eba5af;
+
+    }
+    50%{
+        left: 24%;
+        width: 60%;
+        background-color: #4d5056;
+    }
+    75%{
+        left: 12%;
+        width: 50%;
+    }
+    to{
+        left: 0;
+        width: 40%;
+    }
+}
+
+/*VERSÃO MOBILE*/
+
+@media screen and (max-width: 1200px){
+    .container{
+        animation: none;
+    }
+    .content {
+        width: 100%;
+        height: 100%;
+        animation: animateBorder none;
+        border-radius: 0;
+    }
+
+    .content::before {
+        width: 100%;
+        height: 40%;
+        top: 0;
+
+    }
+
+    .first-content, .second-content {
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .sign-in-js .content::before {
+        top: 60%;
+        left: 0;
+    }
+
+
+    /*ANIMAÇÃO MOBILE*/
+
+    @keyframes deslocarlogin {
+        from {
+            top: 0;
+            opacity: 1;
+            z-index: 12;
+        }
+        25%{
+            top: -80px;
+        }
+        50%{
+            top: -100px;
+        }
+        to{
+            top: -110px;
+            opacity: 0;
+            z-index: -1;
+        }
+    }
+
+    @keyframes deslocarcadastrar {
+        from {
+            top: 0;
+            opacity: 1;
+            z-index: 12;
+        }
+        25%{
+            top: 80px;
+        }
+        50%{
+            top: 100px;
+        }
+        to{
+            top: 110px;
+            opacity: 0;
+            z-index: -1;
+
+        }
+    }
+
+
+    /*ANIMAÇÃO CSS*/
+
+    @keyframes animacaoida{
+        from {
+            top: 0;
+            height: 40%;
+        }
+        25%{
+            top: 12%;
+            height: 50%;
+        }
+        50%{
+            top: 24%;
+            height: 60%;
+            background-color: #4d5056;
+        }
+        75%{
+            top: 48%;
+            height: 50%;
+            background-color: #eba5af;
+        }
+        to{
+            top: 60%;
+            height: 40%;
+        }
+    }
+
+    @keyframes animacaovinda{
+        from {
+            top: 60%;
+            height: 40%;
+        }
+        25%{
+            top: 48%;
+            height: 50%;
+            background-color: #eba5af;
+
+        }
+        50%{
+            top: 24%;
+            height: 60%;
+            background-color: #4d5056;
+        }
+        75%{
+            top: 12%;
+            height: 50%;
+        }
+        to{
+            top: 0;
+            height: 40%;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 476px) {
+    .first-column {
+        width: 90%;
+    }
+
+    .form {
+        width: 90%;
+    }
+
+    .tittle-primary, .tittle-second{
+        font-size: 20px;
+    }
+
+    .content::before {
+        width: 100%;
+        height: 35%;
+        top: 0;
+
+    }
+
+    .sign-in-js .content::before {
+        top: 70%;
+        left: 0;
+    }
+
+    .label-input{
+        margin: 4px;
+    }
+
+    .tittle-second{
+        margin-top: 15px;
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 475px) and (min-width: 227px) {
+    .first-column {
+        width: 90%;
+    }
+
+    .form {
+        width: 150%;
+    }
+
+    .tittle-primary, .tittle-second{
+        font-size: 17px;
+    }
+
+    .content::before {
+        width: 100%;
+        height: 30%;
+        top: 0;
+
+    }
+
+    .sign-in-js .content::before {
+        top: 70%;
+        left: 0;
+    }
+
+    .label-input{
+        margin: 4px;
+    }
+
+    .tittle-second{
+        margin-top: 15px;
+        font-size: 15px;
+    }
+}
+
+.bg-lightblue {
+    background-color: lightblue;
+}

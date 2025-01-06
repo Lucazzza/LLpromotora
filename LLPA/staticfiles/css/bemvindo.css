@@ -1,0 +1,259 @@
+dialog {
+background-color: #E6E6FA;
+border: none;
+border-radius: 5px;
+box-shadow: 0 0 0 0.5em rgb(0 0 0 / .1);
+max-width: 450px;
+max-height: 90%;
+}
+
+@media (max-width: 768px) {
+  dialog {
+    width: 95vw;
+    height: 85vh;
+  }
+}
+
+@media (max-width: 480px) {
+  dialog {
+    width: 95vw;
+    height: 85vh;
+
+  }
+}
+
+#titulobemvindo{
+font-weight: bold;
+text-transform: capitalize;
+font-size: 21px; /* Tamanho da fonte para telas grandes */
+}
+
+/* Para tablets e telas menores */
+@media (max-width: 768px) {
+    #titulobemvindo {
+        font-size: 17px; /* Tamanho da fonte para telas médias */
+    }
+}
+
+/* Para smartphones e telas ainda menores */
+@media (max-width: 480px) {
+    #titulobemvindo {
+        font-size: 13px; /* Tamanho da fonte para telas pequenas */
+    }
+}
+
+#modalCliente h2, #modalEmprestimo h2, #modalServico h2, #modalDespesa h2, #modalAtualizarEmprestimo h2, #modalConfirmacao h2 {
+    font-size: 24px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    color: #000000; /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    margin-bottom: 10px; /* Espaço abaixo do cabeçalho */
+}
+
+#modalCliente p, #modalEmprestimo p, #modalServico p, #modalDespesa p, #modalAtualizarEmprestimo p, #modalConfirmacao p {
+    font-size: 16px; /* Tamanho da fonte */
+    color: #666; /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    margin-bottom: 20px; /* Espaço abaixo do parágrafo */
+}
+
+/*Botão de cancelar resgistro user logado*/
+#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #cancelarExclusao{
+background-color: #FFFFFF;
+text-transform: uppercase;
+border-radius: 15px;
+border: 1px solid #808080;
+font-size: 15px;
+align-self: center;
+
+}
+
+.posicaoglobal {
+    display: flex;
+    justify-content: space-between; /* Alinha os itens às extremidades do container */
+    align-items: center; /* Opcional: alinha verticalmente os itens ao centro */
+    width: 150%; /* Garante que o container ocupe a largura total do seu elemento pai */
+}
+
+.posicaobt {
+    display: inline-block;
+}
+
+
+#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #cancelarExclusao{
+background-color: #FFDEAD;
+border: 1px solid #afff;
+transition: background-color .6s;
+}
+
+#fecharmodalCliente:hover, #fecharmodalEmprestimo:hover, #fecharmodalServico:hover, #fecharmodalDespesa:hover, #fecharmodalAtualizarEmprestimo:hover, #cancelarExclusao:hover{
+background-color: #F08080;
+color: #fff;
+}
+
+/*Botão de cadastro de resgistro user logado*/
+#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #confirmarExclusao{
+background-color: #FFFFFF;
+text-transform: uppercase;
+border-radius: 15px;
+border: 1px solid #808080;
+font-size: 15px;
+align-self: center;
+
+}
+
+#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #confirmarExclusao{
+background-color: #B0E0E6	;
+border: 1px solid #afff;
+transition: background-color .6s;
+}
+
+#cadastrarCliente:hover, #cadastrarEmprestimo:hover, #cadastrarServico:hover, #cadastrarDespesa:hover, #atualizarEmprestimo:hover, #confirmarExclusao:hover{
+    background-color: #006400;
+    color: #fff;
+}
+
+/*Barra de rolagem vertical personalizada*/
+html ::-webkit-scrollbar {
+  width: 10px;
+}
+
+html ::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #6e6ea9;
+}
+
+html ::-webkit-scrollbar-track {
+  background: #ededed;
+}
+
+/*Personalizando auto complete de bancos*/
+ul {
+  list-style: none;
+}
+
+.list {
+  position: absolute;
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  z-index: 1000; /* Certifique-se de que este valor é maior do que os outros elementos na página */
+  margin-top: 55px; /* Adiciona um espaço entre o input e a lista */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: adiciona sombra para melhor visualização */
+}
+
+.list-items {
+  padding: 10px 5px;
+  border-radius: 10px;
+}
+
+.list-items:hover {
+  background-color: #dddddd;
+}
+
+.label-input select {
+    appearance: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    width: 100%;
+    cursor: pointer;
+        background: #FFFFFF;
+
+}
+
+
+/*CUSTOMIZAÇÃO DO BUSCADOR DE CLIENTES*/
+
+#main_table_form .select2 .select2-selection,
+#main_table_form2 .select2 .select2-selection,
+#main_table_form3 .select2 .select2-selection,
+#main_table_form4 .select2 .select2-selection {
+    background: #79a7e0 !important;
+    border-color: #334050 !important;
+}
+
+#main_table_form .select2-container .select2-selection--single,
+#main_table_form2 .select2-container .select2-selection--single,
+#main_table_form3 .select2-container .select2-selection--single,
+#main_table_form4 .select2-container .select2-selection--single {
+}
+    height: 35px !important;
+}
+
+#main_table_form .select2-container--default .select2-selection--single .select2-selection__rendered,
+#main_table_form2 .select2-container--default .select2-selection--single .select2-selection__rendered,
+#main_table_form3 .select2-container--default .select2-selection--single .select2-selection__rendered,
+#main_table_form4 .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 35px !important;
+}
+
+#main_table_form .select2-container .select2-selection__rendered,
+#main_table_form2 .select2-container .select2-selection__rendered,
+#main_table_form3 .select2-container .select2-selection__rendered,
+#main_table_form4 .select2-container .select2-selection__rendered {
+    background: transparent !important;
+    color: #f9fafd !important;
+}
+
+.select2-results {
+    background: #f5fa96 !important;
+}
+
+.select2-dropdown {
+    border-radius: 0 0 15px 15px !important;
+    overflow: hidden !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background: #FFFFFF !important;
+    border-color: #334050 !important;
+    border-radius: 10px !important;
+}
+
+.select2-search--dropdown {
+    background: #0a1727 !important;
+}
+
+/*CUSTOMIZAÇÃO DO RODAPÉ*/
+
+.footer {
+position: fixed;
+bottom: 0;
+width: 100%;
+text-align: center;
+background-color: #343a40;
+color: white;
+padding: 10px 0;
+}
+
+.footer-container {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.footer-container a {
+margin-left: 5px; /* Espaçamento entre os links */
+margin-right: 10px;
+}
+body {
+padding-bottom: 50px; /* Altura do rodapé */
+
+@media (max-width: 768px) {
+    .footer-container {
+        font-size: 17px; /* Reduz o tamanho da fonte para tablets e telas médias */
+    }
+}
+
+/* Para smartphones e telas ainda menores */
+@media (max-width: 480px) {
+    .footer-container {
+        font-size: 13px; /* Reduz o tamanho da fonte para smartphones e telas pequenas */
+    }
+}
+
+@media (max-width: 270px) {
+    .footer-container {
+        font-size: 10px; /* Reduz o tamanho da fonte para smartphones e telas pequenas */
+    }
+}
