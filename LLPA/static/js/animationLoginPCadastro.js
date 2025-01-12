@@ -21,3 +21,12 @@
             messages.parentNode.removeChild(messages);
         }, 3000); // Tempo em milissegundos
     });
+
+
+    // Verificar se o usuário está autenticado (se o token estiver presente, por exemplo)
+    window.onload = function() {
+        const userLoggedIn = '{{ user.is_authenticated }}';
+        if (userLoggedIn === 'True') {
+            window.location.href = "/login/bemvindo";  // Redireciona automaticamente
+        }
+    }

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as login_django, logout as logout_django
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from .forms import ClienteForm, EnderecoForm, EmprestimoForm, ServicoForm, DespesaForm
@@ -50,7 +51,11 @@ def cadastro(request):
         return redirect('login')
 
 
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def login(request):
+    if request.user.is_authenticated:
+        return redirect(bemvindo)
+
     if request.method == "GET":
         return render(request, 'login.html')
     else:
