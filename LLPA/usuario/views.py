@@ -90,17 +90,20 @@ def bemvindo(request):
     corretor = request.GET.get('corretor')
     modelo = request.GET.get('modelo')
     data = request.GET.get('data')
+    datafim = request.GET.get('datafim')
     status = request.GET.get('status')
 
     # Pegando os parâmetros do filtro serviço
     servico_cliente = request.GET.get('servico_cliente')
     servico_descricao = request.GET.get('servico_descricao')
     servico_data_servico = request.GET.get('servico_data_servico')
+    servico_data_servicofim = request.GET.get('servico_data_servicofim')
 
     # Pegando os parâmetros do filtro despesa
     despesa_cliente = request.GET.get('despesa_cliente')
     despesa_descricao = request.GET.get('despesa_descricao')
     despesa_data_despesa = request.GET.get('despesa_data_despesa')
+    despesa_data_despesafim = request.GET.get('despesa_data_despesafim')
 
     # Filtrando os empréstimos com base no usuário e nos parâmetros de filtro
     emprestimos = Emprestimo.objects.filter(idcliente__user=request.user).order_by('id')
@@ -120,7 +123,9 @@ def bemvindo(request):
         emprestimos = emprestimos.filter(nomeCorretor__icontains=corretor)
     if modelo:
         emprestimos = emprestimos.filter(produto__icontains=modelo)
-    if data:
+    if data and datafim:
+        emprestimos = emprestimos.filter(data_inicio_emprestimo__range=(data, datafim))
+    elif data:
         emprestimos = emprestimos.filter(data_inicio_emprestimo__icontains=data)
     if status:
         emprestimos = emprestimos.filter(status__icontains=status)
@@ -130,15 +135,20 @@ def bemvindo(request):
         servicos = servicos.filter(idcliente__nome__icontains=servico_cliente)
     if servico_descricao:
         servicos = servicos.filter(descricao__icontains=servico_descricao)
-    if servico_data_servico:
+    if servico_data_servico and servico_data_servicofim:
+        servicos = servicos.filter(data_servico__range=(servico_data_servico, servico_data_servicofim))
+    elif servico_data_servico:
         servicos = servicos.filter(data_servico__icontains=servico_data_servico)
+
 
     # Aplicando filtros adicionais para despesas
     if despesa_cliente:
         despesas = despesas.filter(idcliente__nome__icontains=despesa_cliente)
     if despesa_descricao:
         despesas = despesas.filter(descricao__icontains=despesa_descricao)
-    if despesa_data_despesa:
+    if despesa_data_despesa and despesa_data_despesafim:
+        despesas = despesas.filter(data_despesa__range=(despesa_data_despesa, despesa_data_despesafim))
+    elif despesa_data_despesa:
         despesas = despesas.filter(data_despesa__icontains=despesa_data_despesa)
 
     # Paginação para empréstimos

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = formattedValue;
     }
 
-    let selectors = '#emprestimoTot, #comissaoCorretor, #comissaoLLPromotora, #idprecoSER, #idprecoDES, #emprestimoTotATU, #comissaoCorretorATU, #comissaoLLPromotoraATU';
+    let selectors = '#emprestimoTot, #comissaoCorretor, #comissaoLLPromotora, #idprecoSER, #idprecoSERATU, #idprecoDES, #idprecoDESATU, #emprestimoTotATU, #comissaoCorretorATU, #comissaoLLPromotoraATU';
 
     // Aplica a formatação ao digitar
     document.querySelectorAll(selectors).forEach(input => {

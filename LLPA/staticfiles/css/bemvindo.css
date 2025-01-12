@@ -42,7 +42,7 @@ font-size: 21px; /* Tamanho da fonte para telas grandes */
     }
 }
 
-#modalCliente h2, #modalEmprestimo h2, #modalServico h2, #modalDespesa h2, #modalAtualizarEmprestimo h2, #modalConfirmacao h2 {
+#modalCliente h2, #modalEmprestimo h2, #modalServico h2, #modalDespesa h2, #modalAtualizarEmprestimo h2, #modalAtualizarServico h2, #modalAtualizarDespesa h2, #modalConfirmacao h2 {
     font-size: 24px; /* Tamanho da fonte */
     font-weight: bold; /* Negrito */
     color: #000000; /* Cor do texto */
@@ -50,7 +50,7 @@ font-size: 21px; /* Tamanho da fonte para telas grandes */
     margin-bottom: 10px; /* Espaço abaixo do cabeçalho */
 }
 
-#modalCliente p, #modalEmprestimo p, #modalServico p, #modalDespesa p, #modalAtualizarEmprestimo p, #modalConfirmacao p {
+#modalCliente p, #modalEmprestimo p, #modalServico p, #modalDespesa p, #modalAtualizarEmprestimo p, #modalAtualizarServico p, #modalAtualizarDespesa p, #modalConfirmacao p {
     font-size: 16px; /* Tamanho da fonte */
     color: #666; /* Cor do texto */
     text-align: center; /* Centraliza o texto */
@@ -58,7 +58,7 @@ font-size: 21px; /* Tamanho da fonte para telas grandes */
 }
 
 /*Botão de cancelar resgistro user logado*/
-#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #cancelarExclusao{
+#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #fecharmodalAtualizarServico, #fecharmodalAtualizarDespesa, #cancelarExclusao{
 background-color: #FFFFFF;
 text-transform: uppercase;
 border-radius: 15px;
@@ -80,19 +80,19 @@ align-self: center;
 }
 
 
-#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #cancelarExclusao{
+#fecharmodalCliente, #fecharmodalEmprestimo, #fecharmodalServico, #fecharmodalDespesa, #fecharmodalAtualizarEmprestimo, #fecharmodalAtualizarServico, #fecharmodalAtualizarDespesa, #cancelarExclusao{
 background-color: #FFDEAD;
 border: 1px solid #afff;
 transition: background-color .6s;
 }
 
-#fecharmodalCliente:hover, #fecharmodalEmprestimo:hover, #fecharmodalServico:hover, #fecharmodalDespesa:hover, #fecharmodalAtualizarEmprestimo:hover, #cancelarExclusao:hover{
+#fecharmodalCliente:hover, #fecharmodalEmprestimo:hover, #fecharmodalServico:hover, #fecharmodalDespesa:hover, #fecharmodalAtualizarEmprestimo:hover, #fecharmodalAtualizarServico:hover, #fecharmodalAtualizarDespesa:hover, #cancelarExclusao:hover{
 background-color: #F08080;
 color: #fff;
 }
 
 /*Botão de cadastro de resgistro user logado*/
-#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #confirmarExclusao{
+#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #atualizarServico, #atualizarDespesa, #confirmarExclusao{
 background-color: #FFFFFF;
 text-transform: uppercase;
 border-radius: 15px;
@@ -102,13 +102,13 @@ align-self: center;
 
 }
 
-#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #confirmarExclusao{
+#cadastrarCliente, #cadastrarEmprestimo, #cadastrarServico, #cadastrarDespesa, #atualizarEmprestimo, #atualizarServico, #atualizarDespesa, #confirmarExclusao{
 background-color: #B0E0E6	;
 border: 1px solid #afff;
 transition: background-color .6s;
 }
 
-#cadastrarCliente:hover, #cadastrarEmprestimo:hover, #cadastrarServico:hover, #cadastrarDespesa:hover, #atualizarEmprestimo:hover, #confirmarExclusao:hover{
+#cadastrarCliente:hover, #cadastrarEmprestimo:hover, #cadastrarServico:hover, #cadastrarDespesa:hover, #atualizarEmprestimo:hover, #atualizarServico:hover, #atualizarDespesa:hover, #confirmarExclusao:hover{
     background-color: #006400;
     color: #fff;
 }
@@ -168,7 +168,9 @@ ul {
 #main_table_form .select2 .select2-selection,
 #main_table_form2 .select2 .select2-selection,
 #main_table_form3 .select2 .select2-selection,
-#main_table_form4 .select2 .select2-selection {
+#main_table_form4 .select2 .select2-selection,
+#main_table_form5 .select2 .select2-selection,
+#main_table_form6 .select2 .select2-selection {
     background: #79a7e0 !important;
     border-color: #334050 !important;
 }
@@ -176,7 +178,9 @@ ul {
 #main_table_form .select2-container .select2-selection--single,
 #main_table_form2 .select2-container .select2-selection--single,
 #main_table_form3 .select2-container .select2-selection--single,
-#main_table_form4 .select2-container .select2-selection--single {
+#main_table_form4 .select2-container .select2-selection--single,
+#main_table_form5 .select2-container .select2-selection--single,
+#main_table_form6 .select2-container .select2-selection--single {
 }
     height: 35px !important;
 }
@@ -184,14 +188,18 @@ ul {
 #main_table_form .select2-container--default .select2-selection--single .select2-selection__rendered,
 #main_table_form2 .select2-container--default .select2-selection--single .select2-selection__rendered,
 #main_table_form3 .select2-container--default .select2-selection--single .select2-selection__rendered,
-#main_table_form4 .select2-container--default .select2-selection--single .select2-selection__rendered {
+#main_table_form4 .select2-container--default .select2-selection--single .select2-selection__rendered,
+#main_table_form5 .select2-container--default .select2-selection--single .select2-selection__rendered,
+#main_table_form6 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 35px !important;
 }
 
 #main_table_form .select2-container .select2-selection__rendered,
 #main_table_form2 .select2-container .select2-selection__rendered,
 #main_table_form3 .select2-container .select2-selection__rendered,
-#main_table_form4 .select2-container .select2-selection__rendered {
+#main_table_form4 .select2-container .select2-selection__rendered,
+#main_table_form5 .select2-container .select2-selection__rendered,
+#main_table_form6 .select2-container .select2-selection__rendered {
     background: transparent !important;
     color: #f9fafd !important;
 }

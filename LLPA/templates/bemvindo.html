@@ -588,7 +588,10 @@ h1 {
                             <input type="text" class="form-control" name="banco" placeholder="Banco" value="{{ request.GET.banco }}">
                             <input type="text" class="form-control" name="corretor" placeholder="Corretor" value="{{ request.GET.corretor }}">
                             <input type="text" class="form-control" name="modelo" placeholder="Modelo" value="{{ request.GET.modelo }}">
+                            <label>Início</label>
                             <input type="date" class="form-control" name="data" placeholder="Data do Empréstimo" value="{{ request.GET.data }}">
+                            <label>Fim</label>
+                            <input type="date" class="form-control" name="datafim" placeholder="Data do Empréstimo FIM" value="{{ request.GET.datafim }}">
                             <input type="text" class="form-control" name="status" placeholder="Status" value="{{ request.GET.status }}">
                             <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
                             <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
@@ -673,7 +676,11 @@ h1 {
                             <!-- Filtros de Serviços -->
                             <input type="text" class="form-control" name="servico_cliente" placeholder="Cliente" value="{{ request.GET.servico_cliente }}">
                             <input type="text" class="form-control" name="servico_descricao" placeholder="Descrição" value="{{ request.GET.servico_descricao }}">
+                            <label>Início</label>
                             <input type="date" class="form-control" name="servico_data_servico" placeholder="Data do Serviço" value="{{ request.GET.servico_data_servico }}">
+                            <label>Fim</label>
+                            <input type="date" class="form-control" name="servico_data_servicofim" placeholder="Data do Serviço FIM" value="{{ request.GET.servico_data_servicofim }}">
+
                             <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
                             <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
                             <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>
@@ -745,7 +752,11 @@ h1 {
                             <!-- Filtros de Despesas -->
                             <input type="text" class="form-control" name="despesa_cliente" placeholder="Cliente" value="{{ request.GET.despesa_cliente }}">
                             <input type="text" class="form-control" name="despesa_banco" placeholder="Banco" value="{{ request.GET.despesa_banco }}">
-                            <input type="date" class="form-control" name="despesa_data" placeholder="Data da Despesa" value="{{ request.GET.despesa_data }}">
+                            <label>Início</label>
+                            <input type="date" class="form-control" name="despesa_data_despesa" placeholder="Data da Despesa" value="{{ request.GET.despesa_data_despesa }}">
+                            <label>Fim</label>
+                            <input type="date" class="form-control" name="despesa_data_despesafim" placeholder="Data do Serviço FIM" value="{{ request.GET.despesa_data_despesafim }}">
+
                             <button type="submit" class="btn btn-primary filter-btn"><i class="fa-solid fa-filter"></i></button>
                             <a href="{% url 'login_bemvindo' %}" class="btn btn-secondary filter-btn"><i class="fa-regular fa-circle-xmark"></i></a>
                             <a href="" class="btn btn-tres filter-btn"><i class="fa-regular fa-file-pdf"></i></a>
